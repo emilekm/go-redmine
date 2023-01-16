@@ -20,6 +20,20 @@ type timeEntryRequest struct {
 	TimeEntry TimeEntry `json:"time_entry"`
 }
 
+type createTimeEntryRequest struct {
+	TimeEntry CreateTimeEntry `json:"time_entry"`
+}
+
+type CreateTimeEntry struct {
+	ProjectId  string  `json:"project_id"`
+	IssueId    string  `json:"issue_id"`
+	UserId     string  `json:"user_id"`
+	ActivityId string  `json:"activity_id"`
+	Hours      float32 `json:"hours"`
+	Comments   string  `json:"comments"`
+	SpentOn    string  `json:"spent_on"`
+}
+
 type TimeEntry struct {
 	Id           int            `json:"id"`
 	Project      IdName         `json:"project"`
@@ -125,8 +139,8 @@ func (c *Client) TimeEntry(id int) (*TimeEntry, error) {
 	return &r.TimeEntry, nil
 }
 
-func (c *Client) CreateTimeEntry(timeEntry TimeEntry) (*TimeEntry, error) {
-	var ir timeEntryRequest
+func (c *Client) CreateTimeEntry(timeEntry CreateTimeEntry) (*TimeEntry, error) {
+	var ir createTimeEntryRequest
 	ir.TimeEntry = timeEntry
 	s, err := json.Marshal(ir)
 	if err != nil {
